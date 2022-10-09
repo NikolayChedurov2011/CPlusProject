@@ -8,11 +8,6 @@
 
 void USessionSlot::SetResult(const FOnlineSessionSearchResult& SessionSearchResult)
 {
-	/*AddToViewport();*/
-	/*SetVisibility(ESlateVisibility::Visible);
-	bIsFocusable = true;*/
-
-
 	/*UGameInstance* GameInstance = GetGameInstance();
 	if (GameInstance)
 	{

@@ -19,9 +19,6 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void ShowMenu();
 
-	UFUNCTION(BlueprintImplementableEvent)
-	void AddSlot(const FString SessionName);
-
 protected:
 
 	//virtual bool Initialize() override;

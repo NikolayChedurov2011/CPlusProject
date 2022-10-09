@@ -61,9 +61,6 @@ void UMenu::OnSessionUpdated(const TArray<FOnlineSessionSearchResult>& SessionSe
 		{
 			FString SessionName = "Empty session name";
 			Result.Session.SessionSettings.Get(FName("SERVER_NAME_KEY"), SessionName);
-			USessionSlot* SessionSlot;
-			SessionSlot->SetResult(Result);
-			AddSlot(SessionName);
 		}
 	}
 	OnlineSubsystemPlugin->UpdateSessionInfo.Clear();
