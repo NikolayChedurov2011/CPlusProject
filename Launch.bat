@@ -1,0 +1,1 @@
+"C:\Unreal Engine 4\UE_4.27\Engine\Binaries\Win64\UE4Editor.exe" "D:\Gamedev\UE4\Projects\CPlusProject\CPlusProject.uproject" -game -ResX=400 -ResY=500 -WinX=0 -WinY=20 -log
