@@ -17,7 +17,9 @@ class MULTIPLAYERSESSION_API USessionSlot : public UUserWidget
 
 public:
 
-	void SetResult(const FOnlineSessionSearchResult& SessionSearchResult);
+	virtual bool Initialize();
+
+	void SetResult(const FString SessionSearchName, const FOnlineSessionSearchResult& SessionSearchResult);
 
 private:
 
@@ -31,6 +33,7 @@ protected:
 	UPROPERTY(meta = (BindWidget))
 	class UTextBlock* Txt_ServerName;
 
+	FString SessionName;
 	FOnlineSessionSearchResult SearchResult;
 
 	UFUNCTION()

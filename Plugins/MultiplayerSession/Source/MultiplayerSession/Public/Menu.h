@@ -16,8 +16,12 @@ class MULTIPLAYERSESSION_API UMenu : public UUserWidget
 
 public:
 
+	UMenu(const FObjectInitializer& ObjectInitializer);
 	UFUNCTION(BlueprintCallable)
 	void ShowMenu();
+
+	TSubclassOf<class UUserWidget> SlotClass;
+	class USessionSlot* Slot;
 
 protected:
 
@@ -47,6 +51,8 @@ private:
 	void OnCreateClicked();
 	UFUNCTION()
 	void OnRefreshClicked();
+	UFUNCTION()
+	void OnJoinClicked();
 
 	void MenuTearDown();
 

@@ -37,7 +37,7 @@ void UOnlineSubsystemPlugin::OnFindSessionsComplete(bool bSucceded)
 
 void UOnlineSubsystemPlugin::OnJoinSessionComplete(FName SessionName, EOnJoinSessionCompleteResult::Type Result)
 {
-
+	SessionInterface->ClearOnJoinSessionCompleteDelegate_Handle(OnJoinSessionDelegateHandle);
 	APlayerController* PController = GetGameInstance()->GetFirstLocalPlayerController();
 	if (PController)
 	{
@@ -57,7 +57,7 @@ void UOnlineSubsystemPlugin::OnStartSessionComplete(FName SessionName, bool bSuc
 {
 }
 
-void UOnlineSubsystemPlugin::CreateSession(FString SessionName)
+void UOnlineSubsystemPlugin::CreateSession(FString SessionName, bool bLAN)
 {	
 	if (!Subsystem)
 	{
@@ -66,12 +66,13 @@ void UOnlineSubsystemPlugin::CreateSession(FString SessionName)
 
 	TSharedRef<FOnlineSessionSettings> SessionSettings = MakeShared<FOnlineSessionSettings>();
 	SessionSettings->NumPublicConnections = 5;
-	SessionSettings->bIsLANMatch = true;
+	SessionSettings->bIsLANMatch = bLAN;
 	SessionSettings->bShouldAdvertise = true;
 	SessionSettings->bAllowJoinInProgress = true;
 	SessionSettings->bUsesPresence = true;
 	SessionSettings->bAllowJoinViaPresence = true;
-	SessionSettings->bUseLobbiesIfAvailable = true;
+	SessionSettings->bUseLobbiesIfAvailable = !bLAN;
+	SessionSettings->bAllowInvites = true;
 	SessionSettings->Set(FName("SERVER_NAME_KEY"), SessionName, EOnlineDataAdvertisementType::ViaOnlineServiceAndPing);
 	
 	this->OnCreateSessionDelegateHandle =
@@ -129,12 +130,18 @@ void UOnlineSubsystemPlugin::JoinSession(const FOnlineSessionSearchResult& Searc
 {
 	if (!Subsystem)
 	{
+		UE_LOG(LogTemp, Warning, TEXT("Nothing"));
 		return;
 	}
 
 	FString SessionName = "Empty session name";
 	SearchResult.Session.SessionSettings.Get(FName("SERVER_NAME_KEY"), SessionName);
 	
+	this->OnJoinSessionDelegateHandle =
+		SessionInterface->AddOnJoinSessionCompleteDelegate_Handle(FOnJoinSessionComplete::FDelegate::CreateUObject(
+			this,
+			&UOnlineSubsystemPlugin::OnJoinSessionComplete));
+
 	const APlayerController* LocalPlayerController = GetWorld()->GetFirstPlayerController();
 	if (IsValid(LocalPlayerController) && LocalPlayerController->IsLocalPlayerController())
 	{

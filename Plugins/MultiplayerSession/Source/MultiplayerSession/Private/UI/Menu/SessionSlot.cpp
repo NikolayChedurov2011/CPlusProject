@@ -6,27 +6,30 @@
 #include "Components/TextBlock.h"
 #include "OnlineSubsystemPlugin.h"
 
-void USessionSlot::SetResult(const FOnlineSessionSearchResult& SessionSearchResult)
+bool USessionSlot::Initialize()
 {
-	/*UGameInstance* GameInstance = GetGameInstance();
+	Super::Initialize();
+	
+	UGameInstance* GameInstance = GetGameInstance();
 	if (GameInstance)
 	{
 		OnlineSubsystemPlugin = GameInstance->GetSubsystem<UOnlineSubsystemPlugin>();
-	}*/
+	}
+	UE_LOG(LogTemp, Warning, TEXT("Bind to join button"));
+	Btn_JoinServer->OnClicked.AddDynamic(this, &ThisClass::OnJoinButtonClicked);
 
-	//Btn_JoinServer->OnClicked.AddDynamic(this, &ThisClass::OnJoinButtonClicked);
+	return true;
+}
+
+void USessionSlot::SetResult(const FString SessionSearchName, const FOnlineSessionSearchResult& SessionSearchResult)
+{
+	SessionName = SessionSearchName;
 	SearchResult = SessionSearchResult;
-	//Txt_ServerName->SetText(Session);
-
-	GEngine->AddOnScreenDebugMessage(
-		-1,
-		15.f,
-		FColor::Red,
-		TEXT("Slot is created")
-	);
+	Txt_ServerName->SetText(FText::FromString(SessionName));
 }
 
 void USessionSlot::OnJoinButtonClicked()
 {
-	//OnlineSubsystemPlugin->JoinSession(SearchResult);
+	UE_LOG(LogTemp, Warning, TEXT("Join clicked"));
+	OnlineSubsystemPlugin->JoinSession(SearchResult);
 }

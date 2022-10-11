@@ -40,7 +40,7 @@ public:
 
 	UOnlineSubsystemPlugin();
 
-	void CreateSession(FString SessionName);
+	void CreateSession(FString SessionName, bool bLAN);
 	void FindSession();
 	void JoinSession(const FOnlineSessionSearchResult& SearchResult);
 	UFUNCTION(BlueprintCallable)
