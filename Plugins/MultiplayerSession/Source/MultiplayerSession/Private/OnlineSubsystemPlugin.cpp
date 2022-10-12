@@ -102,7 +102,7 @@ void UOnlineSubsystemPlugin::FindSession()
 		return;
 	}
 
-	SessionSearch->bIsLanQuery =  true;
+	SessionSearch->bIsLanQuery =  false;
 	SessionSearch->MaxSearchResults = 500;
 	SessionSearch->QuerySettings.Set(SEARCH_PRESENCE, true, EOnlineComparisonOp::Equals);
 	
